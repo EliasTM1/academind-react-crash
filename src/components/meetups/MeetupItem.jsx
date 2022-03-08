@@ -12,6 +12,7 @@ import Card from "../ui/Card";
 const MeetupItem = (props) => {
   return (
     <Card>
+      {/* {console.log(props, "from props")} */}
       <li className={classes.item}>
         <div className={classes.image}>
           <img src={props.image} alt="" />

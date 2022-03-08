@@ -1,37 +1,56 @@
-import React from 'react'
-import MeetupList from '../components/meetups/MeetupList';
+// * Core
+import React, { useState, useEffect } from "react";
 // * Components
-
-
-
-const DUMMY_DATA = [
-  {
-    id: 'm1',
-    title: 'This is a first meetup',
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg',
-    address: 'Meetupstreet 5, 12345 Meetup City',
-    description:
-      'This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!',
-  },
-  {
-    id: 'm2',
-    title: 'This is a second meetup',
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Scarlet_darter_%28Crocothemis_erythraea%29_female_Bulgaria.jpg/2880px-Scarlet_darter_%28Crocothemis_erythraea%29_female_Bulgaria.jpg',
-    address: 'Meetupstreet 5, 12345 Meetup City',
-    description:
-      'This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!',
-  },
-];
+import MeetupList from "../components/meetups/MeetupList";
+// *
 
 const Allmeetups = () => {
+  // ? Register new state
+  // ? isLoading is the snapshot of the latest state
+  // ? setIsLoading is a method that allow us to modify the statr
+  // ? the first value that we pass to use state is the initail value of the state
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedMeetups, setLoadedMeetups] = useState([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch("https://academind-crash-default-rtdb.firebaseio.com/meetups.json")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const meetups = [];
+
+        for (const key in data) {
+          const m = {
+            id: key,
+            ...data[key],
+          };
+          meetups.push(m);
+          console.warn(m);
+        }
+        console.log(meetups);
+        //  ? set is loading to false
+        //  ? Change the state
+        setIsLoading(false);
+        setLoadedMeetups(meetups);
+      });
+  }, []);
+
+  if (isLoading) {
+    return (
+      <section>
+        <p>Loading....</p>
+      </section>
+    );
+  }
   return (
     <section>
       <h1>All Meetups</h1>
-      <MeetupList meetups={DUMMY_DATA} />
+      <MeetupList meetups={loadedMeetups} />
     </section>
-  )
-}
+  );
+};
 
-export default Allmeetups
+export default Allmeetups;

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from "react";
 //  * hooks
 import { useRef } from "react";
@@ -6,7 +7,7 @@ import Card from "../ui/Card";
 //  * Styles
 import classes from "./NewMeetupForm.module.css";
 
-const NewMeetupForm = () => {
+const NewMeetupForm = (props) => {
   //*Refs
   const titleInputRef = useRef();
   const imageInputRef = useRef();
@@ -20,14 +21,15 @@ const NewMeetupForm = () => {
     const enteredImage = imageInputRef.current.value;
     const enteredAddress = addressInputRef.current.value;
     const enteredDescr = descriptionInputRef.current.value;
-    meetupData = {
-      Title: "enteredTitle",
-      Image: "enteredImage",
-      Address: "enteredAddress",
-      Descr: "enteredDescr",
+
+    let meetupData = {
+      title: enteredTitle,
+      image: enteredImage,
+      address: enteredAddress,
+      description: enteredDescr,
     };
 
-    console.log(meetupData);
+    props.onAddMeetUp(meetupData);
   };
 
   return (
