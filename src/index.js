@@ -4,14 +4,14 @@ import "./index.css";
 import App from "./App";
 //  * Router
 import { BrowserRouter } from "react-router-dom";
-
+//  * Provide context
+import { FavoriteContextProvider } from "./store/Favorite-context";
 
 ReactDOM.render(
-
-  <React.StrictMode>
+  <FavoriteContextProvider>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>,
+  </FavoriteContextProvider>,
   document.getElementById("root")
 );
